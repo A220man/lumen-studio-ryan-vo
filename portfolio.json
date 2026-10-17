@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "lumen-studio-ryan-vo",
+  "owner": "A220man",
+  "email": "ryandtvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: lumen-studio-ryan-vo",
+  "workflows": [
+    "Define a vtable layout (ordered slot list of function names) matched against Ghidra decompiler output field names",
+    "Resolve indirect function calls in pasted decompiled snippets to concrete function names with line/column context",
+    "Export resolution results as structured JSON for analyst review"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}

@@ -1,0 +1,32 @@
+[project]
+name = "lumen-studio"
+version = "1.0.0"
+description = "AI/ML reverse-engineering assistant: resolve indirect vtable calls in decompiled code"
+authors = [
+    {name = "Ryan Vo", email = "ryandtvo@gmail.com"}
+]
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115,<1.0",
+    "uvicorn[standard]>=0.30,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0,<9.0",
+    "httpx>=0.28,<1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
+
+[tool.setuptools]
+packages = []
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
