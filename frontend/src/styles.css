@@ -1,0 +1,220 @@
+/* Reset and base styles for Lumen Studio */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  background: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Application shell */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 1rem 2rem;
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.app-header .subtitle {
+  display: block;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  font-weight: 400;
+  margin-top: 0.15rem;
+}
+
+.app-header .meta {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.app-header .error {
+  color: #fca5a5;
+}
+
+.banner {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+}
+
+.error-banner {
+  background: #fef2f2;
+  border-bottom: 2px solid #ef4444;
+  color: #991b2b;
+}
+
+.error-banner code {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  background: #fee2e2;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.2rem;
+}
+
+main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+}
+
+main.dimmed {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+main.ready {
+  opacity: 1;
+}
+
+/* Layout grid */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section h2 {
+  font-size: 1.15rem;
+  color: #1e293b;
+  margin: 0;
+}
+
+.vtable-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.3rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.vtable-item:hover {
+  border-color: #94c5f3;
+  background: #f0f9ff;
+}
+
+.vtable-item.selected {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.vtable-item .vtable-name {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.vtable-item .vtable-slots {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.vtable-item .vtable-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.vtable-item .btn-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+  font-size: 0.8rem;
+}
+
+/* Shared button classes (also defined in component CSS for isolation) */
+.btn {
+  padding: 0.45rem 1rem;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #334159;
+  border-color: #cbd5e1;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-danger {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
+.btn-danger:hover {
+  background: #fee2e2;
+}
+
+.app-footer {
+  background: #1e293b;
+  color: #94a3b8;
+  padding: 1rem 2rem;
+  font-size: 0.82rem;
+}
+
+.app-footer p {
+  margin: 0;
+}

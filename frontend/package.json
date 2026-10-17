@@ -1,0 +1,35 @@
+{
+  "name": "lumen-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI/ML reverse-engineering assistant: resolve indirect vtable calls in decompiled code",
+  "author": {
+    "name": "Ryan Vo",
+    "email": "ryandtvo@gmail.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^5.1.4",
+    "jsdom": "^25.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.14",
+    "vitest": "^2.1.9"
+  },
+  "type": "module"
+}

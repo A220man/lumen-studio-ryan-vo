@@ -1,0 +1,131 @@
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.results-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1e293b;
+}
+
+.match-count {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.results-empty {
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed #e2e8f0;
+  border-radius: 0.5rem;
+  color: #94a3b8;
+  background: #f8fafc;
+}
+
+.results-empty p {
+  margin: 0;
+  font-style: italic;
+}
+
+.match-table {
+  overflow-x: auto;
+}
+
+.match-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.match-table th,
+.match-table td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.match-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.match-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.match-table code {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  background: #f1f5f9;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+}
+
+.resolved-fn {
+  color: #059669;
+  font-weight: 600;
+}
+
+.unknown {
+  color: #dc2626;
+}
+
+.note {
+  color: #64748b;
+  font-style: italic;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-resolved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-empty {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-out-of-range {
+  background: #fee2e2;
+  color: #991b2b;
+}
+
+tr.status-resolved {
+  border-left: 3px solid #10b981;
+}
+
+tr.status-empty {
+  border-left: 3px solid #f59e0b;
+}
+
+tr.status-out-of-range {
+  border-left: 3px solid #ef4444;
+}

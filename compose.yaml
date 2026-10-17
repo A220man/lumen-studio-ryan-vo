@@ -1,0 +1,64 @@
+# Lumen Studio — local development stack.
+#
+# Demo mode (default):
+#   docker compose --profile app up --build
+#
+# Full OIDC auth (adds Keycloak):
+#   KEYCLOAK_ADMIN_PASSWORD=change-me docker compose --profile app --profile auth up --build
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: lumen-studio-backend
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - APP_ENV=${APP_ENV:-development}
+      - DEMO_MODE=${DEMO_MODE:-true}
+      - DATABASE_URL=sqlite:///./data/lumen.db
+      # Keycloak OIDC (R2 — not yet wired but env is here)
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_REALM=lumen-studio
+      - KEYCLOAK_CLIENT_ID=lumen-studio
+      - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET:-}
+      - OIDC_AUDIENCE=lumen-studio
+    volumes:
+      - backend-data:/app/data
+    profiles: ["app", "auth"]
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: lumen-studio-frontend
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    profiles: ["app", "auth"]
+
+  # Keycloak identity provider (profile: auth).
+  # R1 runs in demo mode without Keycloak; enable with --profile auth.
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.5
+    command: start-dev --import-realm --features=preview
+    container_name: lumen-studio-keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD:-changeme}
+      - KC_DB=dev-file
+      - KC_HOSTNAME=localhost
+      - KC_HOSTNAME_STRICT=false
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./keycloak-realm.json:/opt/keycloak/data/import/realm.json:ro
+      - keycloak-data:/opt/keycloak/data
+    profiles: ["auth"]
+
+volumes:
+  backend-data:
+  keycloak-data:
