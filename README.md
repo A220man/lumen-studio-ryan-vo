@@ -111,6 +111,7 @@ graph TL
 |---|---|
 | Vtable definition (name, field, slots) | ✅ R1 |
 | Indirect call resolution (`vtable[N]` → function name) | ✅ R1 |
+| Hex index support (`vtable[0x6]`, `vtable[0X10]`) | ✅ R1.1 |
 | Resolution persistence & retrieval | ✅ R1 |
 | JSON export of resolution results | ✅ R1 |
 | Health & version endpoints | ✅ R1 |
@@ -194,24 +195,23 @@ PYTHONPATH=backend .venv/bin/python -m pytest backend/tests -v
 The test corpus is derived from Ghidra issue #516: the canonical example
 `(*this->vtable[6])(local_20)` where the analyst needs to know which
 function occupies slot 6. Additional test cases cover boundary indices
-(0, last, out-of-range), empty slots (`null`), multiline snippets, and
-unknown field names.
+(0, last, out-of-range), empty slots (`null`), multiline snippets,
+hexadecimal indices (`0xN`, `0XN`), and unknown field names.
 
 ### Measured results
 
 | Metric | Value |
 |---|---|
-| Backend tests | 39 passed |
+| Backend tests | 41 passed |
 | Frontend tests | 5 passed |
-| Pattern precision (integer indices) | 100 % (39 engine-level assertions) |
-| Pattern coverage | literal integer indices only |
+| Pattern precision (integer + hex indices) | 100 % (41 engine-level assertions) |
+| Pattern coverage | literal decimal & hex integer indices |
 
 No ML model is trained or invoked in R1. The deterministic resolver is the
 baseline. All measurements are from the test suite above.
 
 ### Failure cases
 
-- **Hex indices** (`vtable[0x6]`): not matched (`\d+` requires decimal).
 - **Variable indices** (`vtable[i]`): not matched (non-literal).
 - **Multiple vtables with the same field name**: the resolver matches by
   `field_name`; overlapping definitions should use distinct field names.

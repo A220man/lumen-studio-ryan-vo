@@ -29,6 +29,7 @@ Acceptance:
 - Create a vtable definition with slot layout
 - Resolve indirect calls in code snippet
 - Export resolution results as JSON
+- Resolve hexadecimal indices (0xN, 0XN) alongside decimal indices
 
 Implementation: `backend/app/services/vtable_resolver.py`, `backend/app/api/resolver.py`, `frontend/src/pages/ResolverDashboard.tsx`, `frontend/src/components/VtableForm.tsx`, `frontend/src/components/ResolverPanel.tsx`, `frontend/src/components/ResultsList.tsx`, `frontend/src/api/client.ts`
 

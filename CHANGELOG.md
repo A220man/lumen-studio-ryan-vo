@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.0.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
@@ -32,3 +36,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and
 - Only literal-integer vtable indices are resolved (no variable or
   expression indices).
 - Switch/jump-table recognition beyond `FIELD[INDEX]` is deferred.
+
+## [1.0.1] — 2025-10-23
+
+### Added
+- Hexadecimal index support in vtable resolver: `vtable[0x6]`, `vtable[0X10]`
+  patterns are now recognized and resolved alongside decimal indices.
+- New engine tests for hex indices (lowercase `0x` and uppercase `0X`).
+
+### Changed
+- Updated pattern regex to match both decimal and hex integer indices
+  (case-insensitive `0x` prefix).
