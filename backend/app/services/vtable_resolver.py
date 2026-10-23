@@ -81,10 +81,11 @@ class VtableResolver:
             raise ValueError(f"field_name must be a valid identifier, got {field_name!r}")
         self.field_name = field_name
         self.slots = list(slots)
-        # Pattern: word boundary + field name + [ + integer + ]
+        # Pattern: word boundary + field name + [ + integer (decimal or hex) + ]
         # Captures the index group for easy extraction.
         self._pattern = re.compile(
-            rf"\b{re.escape(field_name)}\s*\[\s*(\d+)\s*\]"
+            rf"\b{re.escape(field_name)}\s*\[\s*((?:0x[0-9a-fA-F]+|\d+))\s*\]",
+            re.IGNORECASE,
         )
 
     def resolve(self, code: str) -> list[ResolutionMatch]:
@@ -99,7 +100,8 @@ class VtableResolver:
 
         for m in self._pattern.finditer(code):
             full_expr = m.group(0)
-            index = int(m.group(1))
+            index_str = m.group(1)
+            index = int(index_str, 16) if index_str.lower().startswith("0x") else int(index_str)
 
             line, col = self._position(code, m.start())
 

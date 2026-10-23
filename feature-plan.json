@@ -1,1 +1,109 @@
-{"schema_version":1,"current_feature":"vtable-resolver-core","features":[{"id":"skeleton","title":"FastAPI + React + Vite skeleton","status":"done","acceptance":["GET /health responds","Dev servers run locally","Typed API client generated from routes"],"implementation":["backend/app/main.py","backend/app/core/config.py","backend/app/core/database.py","frontend/src/main.tsx","frontend/src/App.tsx"],"tests":["backend/tests/test_health.py"]},{"id":"vtable-resolver-core","title":"Indirect call resolver: resolve vtable[index] to function names","status":"done","acceptance":["Create a vtable definition with slot layout","Resolve indirect calls in code snippet","Export resolution results as JSON"],"implementation":["backend/app/services/vtable_resolver.py","backend/app/api/resolver.py","frontend/src/pages/ResolverDashboard.tsx","frontend/src/components/VtableForm.tsx","frontend/src/components/ResolverPanel.tsx","frontend/src/components/ResultsList.tsx","frontend/src/api/client.ts"],"tests":["backend/tests/test_vtable_resolver.py","backend/tests/test_api.py","frontend/tests/resolver.test.tsx"]},{"id":"auth-oidc","title":"Keycloak OIDC authorization-code login with state+nonce+PKCE","status":"planned","acceptance":["OIDC login callback flow","Issued token signature/issuer/audience validation","viewer/analyst/admin RBAC on data endpoints"],"implementation":[],"tests":[]},{"id":"llm-adapters","title":"Multi-provider LLM adapter for opt-in advisory explanations","status":"planned","acceptance":["OpenAI-compatible","Anthropic messages","Gemini generateContent adapters with redacted errors"],"implementation":[],"tests":[]},{"id":"dockerize","title":"Dockerfiles, dockerignore, nonroot compose.yaml with Keycloak","status":"done","acceptance":["Backend Dockerfile builds","Frontend Dockerfile builds","compose.yaml starts app + Keycloak"],"implementation":["backend/Dockerfile","backend/.dockerignore","frontend/Dockerfile","frontend/.dockerignore","frontend/nginx.conf","compose.yaml","keycloak-realm.json"],"tests":[]},{"id":"ci","title":"CI workflow: backend tests, frontend build/test, Docker builds","status":"done","acceptance":["pytest passes","vite build + vitest pass","docker buildx builds both images"],"implementation":[".github/workflows/ci.yml"],"tests":[]}]}
+{
+  "schema_version": 1,
+  "current_feature": "vtable-resolver-core",
+  "features": [
+    {
+      "id": "skeleton",
+      "title": "FastAPI + React + Vite skeleton",
+      "status": "done",
+      "acceptance": [
+        "GET /health responds",
+        "Dev servers run locally",
+        "Typed API client generated from routes"
+      ],
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/core/config.py",
+        "backend/app/core/database.py",
+        "frontend/src/main.tsx",
+        "frontend/src/App.tsx"
+      ],
+      "tests": [
+        "backend/tests/test_health.py"
+      ]
+    },
+    {
+      "id": "vtable-resolver-core",
+      "title": "Indirect call resolver: resolve vtable[index] to function names",
+      "status": "done",
+      "acceptance": [
+        "Create a vtable definition with slot layout",
+        "Resolve indirect calls in code snippet",
+        "Export resolution results as JSON",
+        "Resolve hexadecimal indices (0xN, 0XN) alongside decimal indices"
+      ],
+      "implementation": [
+        "backend/app/services/vtable_resolver.py",
+        "backend/app/api/resolver.py",
+        "frontend/src/pages/ResolverDashboard.tsx",
+        "frontend/src/components/VtableForm.tsx",
+        "frontend/src/components/ResolverPanel.tsx",
+        "frontend/src/components/ResultsList.tsx",
+        "frontend/src/api/client.ts"
+      ],
+      "tests": [
+        "backend/tests/test_vtable_resolver.py",
+        "backend/tests/test_api.py",
+        "frontend/tests/resolver.test.tsx"
+      ]
+    },
+    {
+      "id": "auth-oidc",
+      "title": "Keycloak OIDC authorization-code login with state+nonce+PKCE",
+      "status": "planned",
+      "acceptance": [
+        "OIDC login callback flow",
+        "Issued token signature/issuer/audience validation",
+        "viewer/analyst/admin RBAC on data endpoints"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "llm-adapters",
+      "title": "Multi-provider LLM adapter for opt-in advisory explanations",
+      "status": "planned",
+      "acceptance": [
+        "OpenAI-compatible",
+        "Anthropic messages",
+        "Gemini generateContent adapters with redacted errors"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "dockerize",
+      "title": "Dockerfiles, dockerignore, nonroot compose.yaml with Keycloak",
+      "status": "done",
+      "acceptance": [
+        "Backend Dockerfile builds",
+        "Frontend Dockerfile builds",
+        "compose.yaml starts app + Keycloak"
+      ],
+      "implementation": [
+        "backend/Dockerfile",
+        "backend/.dockerignore",
+        "frontend/Dockerfile",
+        "frontend/.dockerignore",
+        "frontend/nginx.conf",
+        "compose.yaml",
+        "keycloak-realm.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "ci",
+      "title": "CI workflow: backend tests, frontend build/test, Docker builds",
+      "status": "done",
+      "acceptance": [
+        "pytest passes",
+        "vite build + vitest pass",
+        "docker buildx builds both images"
+      ],
+      "implementation": [
+        ".github/workflows/ci.yml"
+      ],
+      "tests": []
+    }
+  ]
+}

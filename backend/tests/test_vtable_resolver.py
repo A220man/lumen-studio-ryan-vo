@@ -129,11 +129,29 @@ class TestBoundaryCases:
         code = "other_field[0]();"
         assert resolver.resolve(code) == []
 
-    def test_non_integer_index_not_matched(self):
-        """Hex or variable indices must not be resolved."""
+    def test_hex_index_resolved(self, sample_slots):
+        """Hexadecimal indices (0xN) are now resolved to decimal slot."""
+        resolver = VtableResolver("vtable", sample_slots)
+        code = "vtable[0x1](); vtable[0x5]();"
+        matches = resolver.resolve(code)
+        assert len(matches) == 2
+        assert matches[0].slot_index == 1  # 0x1 = 1
+        assert matches[0].resolved_function == "vtable_addRef"
+        assert matches[1].slot_index == 5  # 0x5 = 5
+        assert matches[1].resolved_function == "vtable_method5"
+
+    def test_uppercase_hex_index_resolved(self):
+        resolver = VtableResolver("vtable", ["fn_a", "fn_b", "fn_c"])
+        code = "vtable[0X2]();"
+        matches = resolver.resolve(code)
+        assert len(matches) == 1
+        assert matches[0].slot_index == 2
+        assert matches[0].resolved_function == "fn_c"
+
+    def test_variable_index_still_not_matched(self):
+        """Variable indices (e.g., vtable[i]) must not be resolved."""
         resolver = VtableResolver("vtable", ["fn_a", "fn_b"])
-        code = "vtable[0x1](); vtable[var]();"
-        # Neither hex nor variable indices match the \d+ pattern.
+        code = "vtable[var](); vtable[i]();"
         assert resolver.resolve(code) == []
 
 
