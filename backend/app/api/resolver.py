@@ -141,14 +141,18 @@ def _row_to_summary(row) -> ResolutionSummary:
     )
 
 
-def _row_to_response(row) -> ResolutionResponse:
+def _row_to_response(row, db: Database) -> ResolutionResponse:
     """Reconstruct a full ResolutionResponse from a stored row."""
     matches_raw = json.loads(row["matches"])
     matches = [ResolutionMatch(**m) for m in matches_raw]
+    # Fetch vtable for base_address
+    vtable_rows = db.query("SELECT base_address FROM vtables WHERE id = ?", (row["vtable_id"],))
+    base_address = vtable_rows[0]["base_address"] if vtable_rows else None
     return ResolutionResponse(
         id=row["id"],
         vtable_id=row["vtable_id"],
         vtable_name=row["vtable_name"],
+        base_address=base_address,
         code=row["code"],
         matches=matches,
         created_at=row["created_at"],
@@ -197,6 +201,7 @@ def create_resolution(
         id=resolution_id,
         vtable_id=payload.vtable_id,
         vtable_name=vt["name"],
+        base_address=vt["base_address"],
         code=payload.code,
         matches=pydantic_matches,
         created_at=now,
@@ -239,4 +244,4 @@ def get_resolution(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Resolution {resolution_id} not found",
         )
-    return _row_to_response(rows[0])
+    return _row_to_response(rows[0], db)

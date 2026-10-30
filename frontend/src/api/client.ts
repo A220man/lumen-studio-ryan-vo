@@ -42,6 +42,7 @@ export interface Resolution {
   id: number;
   vtable_id: number;
   vtable_name: string;
+  base_address: string | null;
   code: string;
   matches: ResolutionMatch[];
   created_at: string;

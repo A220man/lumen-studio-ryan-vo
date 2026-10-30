@@ -61,10 +61,12 @@ class ResolutionResponse(BaseModel):
     id: int
     vtable_id: int
     vtable_name: str
+    base_address: Optional[str] = Field(
+        default=None, description="Optional base address of the vtable"
+    )
     code: str
     matches: list[ResolutionMatch]
     created_at: str
-
 
 class ResolutionSummary(BaseModel):
     """Lightweight summary for listing past resolutions."""

@@ -164,6 +164,7 @@ class TestResolutionWorkflow:
         body = resp.json()
         assert body["vtable_id"] == vt_id
         assert body["vtable_name"] == "MyClass::vtable"
+        assert body["base_address"] == "0x401000"  # default vtable has base_address
         assert body["code"] == code
         assert len(body["matches"]) == 3
 
@@ -211,7 +212,7 @@ class TestResolutionWorkflow:
 
     def test_get_resolution_after_create(self, client):
         """Persisted resolution must be retrievable."""
-        vt_id = _create_vtable(client)
+        vt_id = _create_vtable(client, base_address="0x1000")
         resp = client.post(
             "/api/v1/resolutions",
             json={"vtable_id": vt_id, "code": "vtable[1]();"},
@@ -222,6 +223,7 @@ class TestResolutionWorkflow:
         assert resp.status_code == status.HTTP_200_OK
         body = resp.json()
         assert body["id"] == res_id
+        assert body["base_address"] == "0x1000"
         assert len(body["matches"]) == 1
         assert body["matches"][0]["resolved_function"] == "fn_addRef"
 
