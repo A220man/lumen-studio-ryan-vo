@@ -1,8 +1,18 @@
 # Changelog
 
+## 1.2.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.1.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+
+### Added (this checkpoint)
+- `base_address` field in resolution responses (`ResolutionResponse` schema)
+- Resolution create/get endpoints now include the vtable's base address
+- Frontend API client types updated to include `base_address`
+- Test assertions for base_address in resolution workflow tests
 
 ## 1.0.0 — work-in-progress checkpoint
 
