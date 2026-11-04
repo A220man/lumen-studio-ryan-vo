@@ -3,6 +3,7 @@
  * triggering the resolution engine.
  */
 
+import { useEffect, useRef } from "react";
 import type { Vtable } from "../api/client";
 import "./ResolverPanel.css";
 
@@ -17,11 +18,11 @@ interface ResolverPanelProps {
   error: string | null;
 }
 
-const SAMPLE_CODE = `void MyClass::doWork(int arg1) {
+const SAMPLE_CODE = `void MyClass::doWork(int arg1, int arg2) {
     (*this->vtable[0])(arg1);    // expect fn_getType
-    (*this->vtable[2])(arg2);    // slot 2 is empty
-    (*this->vtable[4])(arg3);    // out of range
-    int x = *src++;
+    (*this->vtable[2])(arg1, arg2); // slot 2 is empty
+    (*this->vtable[4])(arg1);    // out of range
+    int x = arg1 + arg2;
 }`;
 
 export default function ResolverPanel({
@@ -34,6 +35,30 @@ export default function ResolverPanel({
   resolving,
   error,
 }: ResolverPanelProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Ctrl+Enter to resolve
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (!resolving && selectedVtableId && code.trim()) {
+          onResolve();
+        }
+      }
+    }
+
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      if (textarea) {
+        textarea.removeEventListener("keydown", handleKeyDown);
+      }
+    };
+  }, [resolving, selectedVtableId, code, onResolve]);
+
   return (
     <div className="resolver-panel">
       <h2>Resolve indirect calls</h2>
@@ -60,9 +85,10 @@ export default function ResolverPanel({
       <label className="code-input-label">
         <span>Decompiled code</span>
         <textarea
+          ref={textareaRef}
           value={code}
           onChange={(e) => onCodeChange(e.target.value)}
-          placeholder="Paste decompiled C code here…"
+          placeholder="Paste decompiled C code here… (Ctrl+Enter to resolve)"
           rows={10}
           disabled={resolving || !selectedVtableId}
           aria-label="Decompiled code snippet"
