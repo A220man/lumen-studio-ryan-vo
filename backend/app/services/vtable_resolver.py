@@ -81,10 +81,11 @@ class VtableResolver:
             raise ValueError(f"field_name must be a valid identifier, got {field_name!r}")
         self.field_name = field_name
         self.slots = list(slots)
-        # Pattern: word boundary + field name + [ + integer (decimal or hex) + ]
+        # Pattern: optional ( + word boundary + field name + word boundary + optional ) + [ + integer (decimal or hex) + ]
         # Captures the index group for easy extraction.
+        # Allows patterns like: vtable[0], (vtable)[0], ((vtable))[0]
         self._pattern = re.compile(
-            rf"\b{re.escape(field_name)}\s*\[\s*((?:0x[0-9a-fA-F]+|\d+))\s*\]",
+            rf"(?:\(\s*)?\b{re.escape(field_name)}\b(?:\s*\))?\s*\[\s*((?:0x[0-9a-fA-F]+|\d+))\s*\]",
             re.IGNORECASE,
         )
 

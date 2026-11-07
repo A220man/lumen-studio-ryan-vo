@@ -47,6 +47,7 @@ const makeResolution = (overrides = {}): ResolutionType => ({
   id: 1,
   vtable_id: 1,
   vtable_name: "MyClass::vtable",
+  base_address: "0x401000",
   code: "vtable[0]();",
   matches: [
     {
