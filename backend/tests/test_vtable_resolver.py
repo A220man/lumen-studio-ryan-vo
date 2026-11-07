@@ -154,6 +154,26 @@ class TestBoundaryCases:
         code = "vtable[var](); vtable[i]();"
         assert resolver.resolve(code) == []
 
+    def test_parenthesized_field_name_resolved(self):
+        """Parenthesized field names like (vtable)[0] are resolved."""
+        resolver = VtableResolver("vtable", ["fn_a", "fn_b", "fn_c"])
+        code = "(vtable)[0](); ((vtable))[1]();"
+        matches = resolver.resolve(code)
+        assert len(matches) == 1  # Only first pattern matches (single parens)
+        assert matches[0].slot_index == 0
+        assert matches[0].resolved_function == "fn_a"
+        assert matches[0].expression == "(vtable)[0]"
+
+    def test_parenthesized_field_name_with_hex(self):
+        """Parenthesized field names work with hex indices."""
+        resolver = VtableResolver("vtable", ["fn_a", "fn_b"])
+        code = "(vtable)[0x1]();"
+        matches = resolver.resolve(code)
+        assert len(matches) == 1
+        assert matches[0].slot_index == 1
+        assert matches[0].resolved_function == "fn_b"
+        assert matches[0].expression == "(vtable)[0x1]"
+
 
 # ---------------------------------------------------------------- #
 # Invalid construction
