@@ -83,9 +83,9 @@ class VtableResolver:
         self.slots = list(slots)
         # Pattern: optional ( + word boundary + field name + word boundary + optional ) + [ + integer (decimal or hex) + ]
         # Captures the index group for easy extraction.
-        # Allows patterns like: vtable[0], (vtable)[0], ((vtable))[0]
+        # Allows patterns like: vtable[0], (vtable)[0], ((vtable))[0], (((vtable)))[0], etc.
         self._pattern = re.compile(
-            rf"(?:\(\s*)?\b{re.escape(field_name)}\b(?:\s*\))?\s*\[\s*((?:0x[0-9a-fA-F]+|\d+))\s*\]",
+            rf"(?:\(\s*)*\b{re.escape(field_name)}\b(?:\s*\))*\s*\[\s*((?:0x[0-9a-fA-F]+|\d+))\s*\]",
             re.IGNORECASE,
         )
 
