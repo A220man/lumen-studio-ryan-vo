@@ -1,8 +1,21 @@
 # Changelog
 
+## 1.5.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.4.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+
+### Fixed (this checkpoint)
+- Vtable resolver regex now correctly supports nested parentheses around field
+  names: `((vtable))[0]`, `(((vtable)))[1]`, etc. Previously the comment
+  claimed support but the regex only allowed a single level of parentheses.
+
+### Changed
+- Updated `test_parenthesized_field_name_resolved` to verify nested
+  parentheses are resolved (expects 2 matches instead of 1).
 
 ## 1.3.0 — work-in-progress checkpoint
 
@@ -65,3 +78,4 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and
 ### Changed
 - Updated pattern regex to match both decimal and hex integer indices
   (case-insensitive `0x` prefix).
+
