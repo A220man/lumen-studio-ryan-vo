@@ -58,6 +58,8 @@ class Settings:
     keycloak_client_id: str | None = os.getenv("KEYCLOAK_CLIENT_ID") or None
     keycloak_client_secret: str | None = os.getenv("KEYCLOAK_CLIENT_SECRET") or None
     oidc_audience: str | None = os.getenv("OIDC_AUDIENCE") or None
+    session_secret: str = os.getenv("SESSION_SECRET", "dev-secret-change-in-production")
+    session_secret: str = os.getenv("SESSION_SECRET", "dev-secret-change-in-production")
 
     # --- LLM adapter (opt-in; R1 returns advisory-unavailable) ---
     llm_api_key: str | None = os.getenv("LLM_API_KEY") or None
