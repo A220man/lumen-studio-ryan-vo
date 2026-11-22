@@ -91,3 +91,22 @@ class VersionInfo(BaseModel):
     version: str = "unknown"
     env: str = "development"
     demo_mode: bool = False
+
+class UserInfo(BaseModel):
+    """Minimal user info returned from OIDC callback."""
+    sub: str
+    email: str
+    preferred_username: str
+    role: str
+
+
+class TokenResponse(BaseModel):
+    """Token response from OIDC authorization-code exchange."""
+    access_token: str
+    token_type: str = "Bearer"
+    expires_in: int
+    refresh_token: str = ""
+    scope: str = "openid email"
+    id_token: str
+    session_token: str
+    user_info: UserInfo
