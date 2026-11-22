@@ -19,6 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .api.health import router as health_router
 from .api.resolver import router as resolver_router
+from .api.oidc import router as oidc_router
 from .core.config import settings
 from .core.database import Database
 
@@ -59,6 +60,7 @@ def create_app(test_database_url: str | None = None) -> FastAPI:
 
     app.include_router(health_router)
     app.include_router(resolver_router)
+    app.include_router(oidc_router)
 
     return app
 
