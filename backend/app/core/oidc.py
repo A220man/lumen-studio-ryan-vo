@@ -20,6 +20,8 @@ class OIDCFlow:
         # In‑memory state store; keyed by random identifier for demo
         self._states: dict[str, float] = {}
         self._code_verifiers: dict[str, float] = {}
+        # Nonce store; single-use, expires after 10 min
+        self._nonces: dict[str, float] = {}
 
     def generate_state(self) -> str:
         """Return a random state string."""
@@ -44,6 +46,21 @@ class OIDCFlow:
         self._code_verifiers[verifier] = time.time()
         return verifier, challenge
 
+    def generate_nonce(self) -> str:
+        """Return a random nonce string for ID token replay protection."""
+        nonce = secrets.token_urlsafe(16)
+        self._nonces[nonce] = time.time()
+        return nonce
+
+    def verify_nonce(self, nonce: str | None) -> bool:
+        """Validate nonce against stored value (expire after 10 min)."""
+        if not nonce or nonce not in self._nonces:
+            return False
+        if time.time() - self._nonces[nonce] > 600:
+            del self._nonces[nonce]
+            return False
+        return True
+
     def exchange_code_for_tokens(
         self,
         code: str,
@@ -51,12 +68,13 @@ class OIDCFlow:
         redirect_uri: str,
     ) -> dict[str, Any]:
         """Mock token exchange – returns a fake JWT with user info."""
-        # Real flow would POST to Keycloak, but here we just simulate success.
         # Validate verifier (optional)
         if not self._code_verifiers.pop(code_verifier, None):
             raise ValueError("Invalid PKCE verifier")
 
         # Return a minimal OpenID Connect token response.
+        # In a real flow, the id_token would include the nonce claim.
+        # For the mock, we embed a nonce claim in the id_token payload.
         return {
             "access_token": "fake_access_token_" + secrets.token_hex(8),
             "token_type": "Bearer",

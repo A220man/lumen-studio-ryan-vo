@@ -1,6 +1,6 @@
 [project]
 name = "lumen-studio"
-version = "1.7.0"
+version = "1.8.0"
 description = "AI/ML reverse-engineering assistant: resolve indirect vtable calls in decompiled code"
 authors = [
     {name = "Ryan Vo", email = "ryandtvo@gmail.com"}

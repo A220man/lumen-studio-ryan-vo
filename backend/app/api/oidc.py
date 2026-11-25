@@ -33,12 +33,14 @@ async def oidc_callback(
     code: str = Query(..., description="Authorization code from Keycloak"),
     state: str = Query(..., description="State parameter for CSRF protection"),
     session_code_verifier: str = Query(..., description="PKCE code verifier from initial login"),
+    nonce: str | None = Query(None, description="nonce for ID token replay protection"),
 ) -> TokenResponse:
     """Exchange the authorization code for tokens via Keycloak OIDC.
 
     Validates:
     - State parameter matches stored value (expires after 10 min)
     - PKCE code verifier matches the one generated during login
+    - Nonce matches the one generated during login (single-use, expires after 10 min) if provided
     - Redirect URI matches
     - Exchanges code for tokens (mocked for demo; real flow posts to Keycloak)
     - Creates a session token from the OIDC claims
@@ -56,6 +58,13 @@ async def oidc_callback(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Invalid or expired PKCE code verifier",
+        )
+
+    # Validate nonce if provided - this pops the nonce from storage (single-use)
+    if nonce is not None and not oidc.verify_nonce(nonce):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired nonce parameter",
         )
 
     # In a real implementation, we would POST to Keycloak's token endpoint.
